@@ -8,7 +8,7 @@ public class Main {
 	public static void main(String[] args) throws SQLException {
 		SearchQueryesImpl a = new SearchQueryesImpl();
 		SearchQueryes b = a.getElementById(1);
-		System.out.println(b.getURL() + " Миша какуля");
+		System.out.println();
 	}
 
 }
