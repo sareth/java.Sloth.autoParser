@@ -1,6 +1,6 @@
 package ru.program_code.sareth.Sloth.autoParser.Data;
 
-public class SearchQueryes {
+public class SearchQueryesModelClass {
 	protected int id;
 	protected int siteID;
 	protected String URL;
@@ -13,7 +13,7 @@ public class SearchQueryes {
 	protected int SearchSystem;
 	protected String SearchSystemName;
 	
-	public SearchQueryes(int id, int siteID, String uRL, int queryId,
+	public SearchQueryesModelClass(int id, int siteID, String uRL, int queryId,
 			String text, int langId, String langName, int regionId,
 			String regionName, int searchSystem, String searchSystemName) {
 		super();
