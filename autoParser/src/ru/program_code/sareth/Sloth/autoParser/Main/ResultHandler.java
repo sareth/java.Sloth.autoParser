@@ -3,8 +3,9 @@ package ru.program_code.sareth.Sloth.autoParser.Main;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import ru.program_code.sareth.Sloth.autoParser.Data.SearchQueryesModelClass;
-import ru.program_code.sareth.Sloth.autoParser.Data.SearchQueryesGettingResultsImpl;
+import ru.program_code.sareth.Sloth.autoParser.DAOSimple.SearchQueryesGettingResultsImpl;
+import ru.program_code.sareth.Sloth.autoParser.DAOSimple.SearchQueryesObject;
+import ru.program_code.sareth.Sloth.autoParser.Parser.SendHandler;
 
 public class ResultHandler {
 	public static void handleArgs(String[] args){
@@ -13,12 +14,12 @@ public class ResultHandler {
 				if (args[0].equalsIgnoreCase("-all")) {
 					SearchQueryesGettingResultsImpl a = new SearchQueryesGettingResultsImpl();
 
-					LinkedList<SearchQueryesModelClass> b = (LinkedList<SearchQueryesModelClass>) a
+					LinkedList<SearchQueryesObject> b = (LinkedList<SearchQueryesObject>) a
 							.getAll();
 					if (b.isEmpty() == false) {
-						for (Iterator iterator = b.iterator(); iterator
+						for (Iterator<SearchQueryesObject> iterator = b.iterator(); iterator
 								.hasNext();) {
-							SearchQueryesModelClass searchQuery = (SearchQueryesModelClass) iterator
+							SearchQueryesObject searchQuery = (SearchQueryesObject) iterator
 									.next();
 							System.out.println(searchQuery.getURL());
 						}
@@ -30,12 +31,12 @@ public class ResultHandler {
 				else if (args[0].equalsIgnoreCase("-daily")) {
 					SearchQueryesGettingResultsImpl a = new SearchQueryesGettingResultsImpl();
 
-					LinkedList<SearchQueryesModelClass> b = (LinkedList<SearchQueryesModelClass>) a
+					LinkedList<SearchQueryesObject> b = (LinkedList<SearchQueryesObject>) a
 							.getElementsWhereEveryDay();
 					if (b.isEmpty() == false) {
-						for (Iterator iterator = b.iterator(); iterator
+						for (Iterator<SearchQueryesObject> iterator = b.iterator(); iterator
 								.hasNext();) {
-							SearchQueryesModelClass searchQuery = (SearchQueryesModelClass) iterator
+							SearchQueryesObject searchQuery = (SearchQueryesObject) iterator
 									.next();
 							System.out.println(searchQuery.getURL());
 						}
@@ -47,12 +48,12 @@ public class ResultHandler {
 				else if (args[0].equalsIgnoreCase("-weekly")) {
 					SearchQueryesGettingResultsImpl a = new SearchQueryesGettingResultsImpl();
 
-					LinkedList<SearchQueryesModelClass> b = (LinkedList<SearchQueryesModelClass>) a
+					LinkedList<SearchQueryesObject> b = (LinkedList<SearchQueryesObject>) a
 							.getElementsWhereEveryWeek();
 					if (b.isEmpty() == false) {
-						for (Iterator iterator = b.iterator(); iterator
+						for (Iterator<SearchQueryesObject> iterator = b.iterator(); iterator
 								.hasNext();) {
-							SearchQueryesModelClass searchQuery = (SearchQueryesModelClass) iterator
+							SearchQueryesObject searchQuery = (SearchQueryesObject) iterator
 									.next();
 							System.out.println(searchQuery.getURL());
 						}
@@ -64,12 +65,12 @@ public class ResultHandler {
 				else if (args[0].equalsIgnoreCase("-monthly")) {
 					SearchQueryesGettingResultsImpl a = new SearchQueryesGettingResultsImpl();
 
-					LinkedList<SearchQueryesModelClass> b = (LinkedList<SearchQueryesModelClass>) a
+					LinkedList<SearchQueryesObject> b = (LinkedList<SearchQueryesObject>) a
 							.getElementsWhereEveryMonth();
 					if (b.isEmpty() == false) {
-						for (Iterator iterator = b.iterator(); iterator
+						for (Iterator<SearchQueryesObject> iterator = b.iterator(); iterator
 								.hasNext();) {
-							SearchQueryesModelClass searchQuery = (SearchQueryesModelClass) iterator
+							SearchQueryesObject searchQuery = (SearchQueryesObject) iterator
 									.next();
 							System.out.println(searchQuery.getURL());
 						}
@@ -85,9 +86,9 @@ public class ResultHandler {
 
 					int id = (new Integer(args[1]).intValue());
 
-					SearchQueryesModelClass b = a.getElementById(id);
+					SearchQueryesObject b = a.getElementById(id);
 					if (b !=null) {
-						System.out.print(b.getURL());
+						SendHandler.buildURLString(b, "http://www.program-code.ru/parse/position_parser.php");
 					} else {
 						System.out.print("Not find");
 					}

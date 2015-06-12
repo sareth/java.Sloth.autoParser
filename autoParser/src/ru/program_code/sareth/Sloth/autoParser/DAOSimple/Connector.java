@@ -1,9 +1,7 @@
-package ru.program_code.sareth.Sloth.autoParser.Data;
+package ru.program_code.sareth.Sloth.autoParser.DAOSimple;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Connector {

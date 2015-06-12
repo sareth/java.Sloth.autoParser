@@ -1,4 +1,4 @@
-package ru.program_code.sareth.Sloth.autoParser.Data;
+package ru.program_code.sareth.Sloth.autoParser.DAOSimple;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +12,9 @@ public class SearchQueryesGettingResultsImpl implements SearchQueryesGettingResu
 	private PreparedStatement preparedStatement = null;
 	private String stringQuery = 	"SELECT sitequeryes.Id as Id, sites.ID as siteID, sites.URL as Url, queryes.ID as queryID, "+
 									"queryes.Text as Text, languages.Value as LangID, languages.Name as LangName, regions.Value as RegionID, " +
-									"regions.Name as RegionName, searchsystems.Value as SearchSystem, searchsystems.Name as SearchSystemName " +
+									"regions.Name as RegionName, searchsystems.Value as SearchSystem, "+
+									"searchsystems.Name as SearchSystemName, searchsystems.Id as SearchSystemId, " +
+									"countryes.id as countryId, countryes.Name as CountryName, countryes.Value as CountryValue " +
 									"FROM Positions.sitequeryes INNER JOIN sites ON sitequeryes.site = sites.ID " +
 									"INNER JOIN queryes " +
 									"ON (sitequeryes.query = queryes.id) " +
@@ -20,15 +22,16 @@ public class SearchQueryesGettingResultsImpl implements SearchQueryesGettingResu
 									"ON (sitequeryes.region = regions.id) " +
 									"INNER JOIN languages " +
 									"ON (sitequeryes.lang = languages.id) " +
+									"INNER JOIN countryes " +
+									"ON (sitequeryes.country = countryes.id) " +
 									"INNER JOIN searchsystems " +
 									"ON (sitequeryes.searchsystem = searchsystems.id) ";
 	
 	@Override
-	public List<SearchQueryesModelClass> getAll() throws SQLException {
-		List<SearchQueryesModelClass> result= new LinkedList<SearchQueryesModelClass>();
+	public List<SearchQueryesObject> getAll() throws SQLException {
+		List<SearchQueryesObject> result= new LinkedList<SearchQueryesObject>();
 		
-		String selectSQL =	stringQuery +
-							"ON (sitequeryes.searchsystem = searchsystems.id)";
+		String selectSQL =	stringQuery;
 	 
 			try {
 				
@@ -41,11 +44,11 @@ public class SearchQueryesGettingResultsImpl implements SearchQueryesGettingResu
 				ResultSet rs = preparedStatement.executeQuery();
 	 
 				while (rs.next()) {
-					result.add(new SearchQueryesModelClass(rs.getInt("Id"), rs.getInt("siteID"), 
+					result.add(new SearchQueryesObject(rs.getInt("Id"), rs.getInt("siteID"), 
 							rs.getString("Url"), rs.getInt("queryID"), rs.getString("Text"),
 							rs.getInt("LangID"), rs.getString("LangName"), rs.getInt("RegionID"),
 							rs.getString("RegionName"), rs.getInt("SearchSystem"), 
-							rs.getString("SearchSystemName"))
+							rs.getString("SearchSystemName"), rs.getInt("SearchSystemId"), rs.getInt("countryId"), rs.getInt("CountryValue"))
 					);
 				}
 	 
@@ -72,8 +75,8 @@ public class SearchQueryesGettingResultsImpl implements SearchQueryesGettingResu
 	}
 
 	@Override
-	public SearchQueryesModelClass getElementById(int id) throws SQLException {
-		SearchQueryesModelClass result;
+	public SearchQueryesObject getElementById(int id) throws SQLException {
+		SearchQueryesObject result;
 		String selectSQL =	stringQuery +
 							"WHERE sitequeryes.id= " + id;
 	 
@@ -88,11 +91,11 @@ public class SearchQueryesGettingResultsImpl implements SearchQueryesGettingResu
 				ResultSet rs = preparedStatement.executeQuery();
 	 
 				while (rs.next()) {
-					result  = new SearchQueryesModelClass(rs.getInt("Id"), rs.getInt("siteID"), 
+					result  = new SearchQueryesObject(rs.getInt("Id"), rs.getInt("siteID"), 
 							rs.getString("Url"), rs.getInt("queryID"), rs.getString("Text"),
 							rs.getInt("LangID"), rs.getString("LangName"), rs.getInt("RegionID"),
 							rs.getString("RegionName"), rs.getInt("SearchSystem"), 
-							rs.getString("SearchSystemName"));
+							rs.getString("SearchSystemName"), rs.getInt("SearchSystemId"), rs.getInt("countryId"), rs.getInt("CountryValue"));
 					
 					return result;
 				}
@@ -119,8 +122,8 @@ public class SearchQueryesGettingResultsImpl implements SearchQueryesGettingResu
 	}
 
 	@Override
-	public List<SearchQueryesModelClass> getElementsWhereEveryDay() throws SQLException {
-		List<SearchQueryesModelClass> result= new LinkedList<SearchQueryesModelClass>();
+	public List<SearchQueryesObject> getElementsWhereEveryDay() throws SQLException {
+		List<SearchQueryesObject> result= new LinkedList<SearchQueryesObject>();
 		
 		String selectSQL =	stringQuery +
 							"WHERE sitequeryes.everyday=1";
@@ -137,11 +140,11 @@ public class SearchQueryesGettingResultsImpl implements SearchQueryesGettingResu
 	 
 				while (rs.next()) {
 					
-					result.add(new SearchQueryesModelClass(rs.getInt("Id"), rs.getInt("siteID"), 
+					result.add(new SearchQueryesObject(rs.getInt("Id"), rs.getInt("siteID"), 
 							rs.getString("Url"), rs.getInt("queryID"), rs.getString("Text"),
 							rs.getInt("LangID"), rs.getString("LangName"), rs.getInt("RegionID"),
 							rs.getString("RegionName"), rs.getInt("SearchSystem"), 
-							rs.getString("SearchSystemName"))
+							rs.getString("SearchSystemName"), rs.getInt("SearchSystemId"), rs.getInt("countryId"), rs.getInt("CountryValue"))
 					);
 					
 					
@@ -170,8 +173,8 @@ public class SearchQueryesGettingResultsImpl implements SearchQueryesGettingResu
 	}
 
 	@Override
-	public List<SearchQueryesModelClass> getElementsWhereEveryWeek() throws SQLException {
-		List<SearchQueryesModelClass> result= new LinkedList<SearchQueryesModelClass>();
+	public List<SearchQueryesObject> getElementsWhereEveryWeek() throws SQLException {
+		List<SearchQueryesObject> result= new LinkedList<SearchQueryesObject>();
 		
 		String selectSQL =	stringQuery +
 							"WHERE sitequeryes.everyweek=1";
@@ -187,11 +190,11 @@ public class SearchQueryesGettingResultsImpl implements SearchQueryesGettingResu
 				ResultSet rs = preparedStatement.executeQuery();
 	 
 				while (rs.next()) {
-					result.add(new SearchQueryesModelClass(rs.getInt("Id"), rs.getInt("siteID"), 
+					result.add(new SearchQueryesObject(rs.getInt("Id"), rs.getInt("siteID"), 
 							rs.getString("Url"), rs.getInt("queryID"), rs.getString("Text"),
 							rs.getInt("LangID"), rs.getString("LangName"), rs.getInt("RegionID"),
 							rs.getString("RegionName"), rs.getInt("SearchSystem"), 
-							rs.getString("SearchSystemName"))
+							rs.getString("SearchSystemName"), rs.getInt("SearchSystemId"), rs.getInt("countryId"), rs.getInt("CountryValue"))
 					);
 					
 				}
@@ -219,8 +222,8 @@ public class SearchQueryesGettingResultsImpl implements SearchQueryesGettingResu
 	}
 
 	@Override
-	public List<SearchQueryesModelClass> getElementsWhereEveryMonth() throws SQLException {
-		List<SearchQueryesModelClass> result= new LinkedList<SearchQueryesModelClass>();
+	public List<SearchQueryesObject> getElementsWhereEveryMonth() throws SQLException {
+		List<SearchQueryesObject> result= new LinkedList<SearchQueryesObject>();
 		
 		String selectSQL =	stringQuery +
 							"WHERE sitequeryes.everymonth=1";
@@ -236,11 +239,11 @@ public class SearchQueryesGettingResultsImpl implements SearchQueryesGettingResu
 				ResultSet rs = preparedStatement.executeQuery();
 	 
 				while (rs.next()) {
-					result.add(new SearchQueryesModelClass(rs.getInt("Id"), rs.getInt("siteID"), 
+					result.add(new SearchQueryesObject(rs.getInt("Id"), rs.getInt("siteID"), 
 							rs.getString("Url"), rs.getInt("queryID"), rs.getString("Text"),
 							rs.getInt("LangID"), rs.getString("LangName"), rs.getInt("RegionID"),
 							rs.getString("RegionName"), rs.getInt("SearchSystem"), 
-							rs.getString("SearchSystemName"))
+							rs.getString("SearchSystemName"), rs.getInt("SearchSystemId"), rs.getInt("countryId"), rs.getInt("CountryValue"))
 					);
 					
 				}
