@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import ru.program_code.sareth.Sloth.autoParser.DAOSimple.SearchQueryesGettingResultsImpl;
 import ru.program_code.sareth.Sloth.autoParser.DAOSimple.SearchQueryesObject;
-import ru.program_code.sareth.Sloth.autoParser.Parser.SendHandler;
+import ru.program_code.sareth.Sloth.autoParser.Parser.SendStringURLHandler;
 
 public class ResultHandler {
 	public static void handleArgs(String[] args){
@@ -17,13 +17,8 @@ public class ResultHandler {
 					LinkedList<SearchQueryesObject> b = (LinkedList<SearchQueryesObject>) a
 							.getAll();
 					if (b.isEmpty() == false) {
-						for (Iterator<SearchQueryesObject> iterator = b.iterator(); iterator
-								.hasNext();) {
-							SearchQueryesObject searchQuery = (SearchQueryesObject) iterator
-									.next();
-							System.out.println(searchQuery.getURL());
-						}
-
+						SendStringURLHandler.buildURLLists(b);
+						
 					} else {
 						System.out.print("No records found");
 					}
@@ -88,7 +83,8 @@ public class ResultHandler {
 
 					SearchQueryesObject b = a.getElementById(id);
 					if (b !=null) {
-						SendHandler.buildURLString(b, "http://www.program-code.ru/parse/position_parser.php");
+						String url = SendStringURLHandler.buildURLString(b, "http://www.program-code.ru/parse/position_parser.php");
+						System.out.print(url);
 					} else {
 						System.out.print("Not find");
 					}
@@ -100,6 +96,7 @@ public class ResultHandler {
 			}
 		} catch (Exception e) {
 			printHelp();
+			e.printStackTrace();
 		}
 		
 	}

@@ -1,14 +1,14 @@
 package ru.program_code.sareth.Sloth.autoParser.DAOSimple;
 
 public class ParserObject {
-	private int SearchSystemId;
+	private int parserId;
 	private String URL;
 	
-	public int getSearchSystemId() {
-		return SearchSystemId;
+	public int getParserId() {
+		return parserId;
 	}
-	public void setSearchSystemId(int searchSystemId) {
-		SearchSystemId = searchSystemId;
+	public void setParserId(int parserId) {
+		this.parserId = parserId;
 	}
 	public String getURL() {
 		return URL;
@@ -19,7 +19,7 @@ public class ParserObject {
 	
 	public ParserObject(int searchSystemId, String uRL) {
 		super();
-		SearchSystemId = searchSystemId;
+		parserId = searchSystemId;
 		URL = uRL;
 	}
 	

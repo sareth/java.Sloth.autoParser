@@ -27,7 +27,7 @@ public class ParsersGet {
 			ResultSet rs = preparedStatement.executeQuery();
  
 			while (rs.next()) {
-				result.add(new ParserObject(rs.getInt("searchsystem"),rs.getString("URL")));
+				result.add(new ParserObject(rs.getInt("id"),rs.getString("URL")));
 			}
  
 		} catch (SQLException e) {
