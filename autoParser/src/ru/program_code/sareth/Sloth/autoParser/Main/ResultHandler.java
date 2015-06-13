@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import ru.program_code.sareth.Sloth.autoParser.DAOSimple.SearchQueryesGettingResultsImpl;
 import ru.program_code.sareth.Sloth.autoParser.DAOSimple.SearchQueryesObject;
+import ru.program_code.sareth.Sloth.autoParser.DAOSimple.SiteQueryPositionObject;
 import ru.program_code.sareth.Sloth.autoParser.Parser.SendStringURLHandler;
 
 public class ResultHandler {
@@ -17,8 +18,11 @@ public class ResultHandler {
 					LinkedList<SearchQueryesObject> b = (LinkedList<SearchQueryesObject>) a
 							.getAll();
 					if (b.isEmpty() == false) {
-						SendStringURLHandler.buildURLLists(b);
-						
+						LinkedList<SiteQueryPositionObject> ss = (LinkedList<SiteQueryPositionObject>) SendStringURLHandler.buildURLLists(b);
+						for (SiteQueryPositionObject siteQueryPositionObject : ss) {
+							System.out.print(siteQueryPositionObject.getDatetime() + " " + siteQueryPositionObject.getPosition());
+							
+						}
 					} else {
 						System.out.print("No records found");
 					}

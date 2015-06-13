@@ -1,14 +1,16 @@
 package ru.program_code.sareth.Sloth.autoParser.Parser;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.SQLException;
-import java.util.Iterator;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
 import ru.program_code.sareth.Sloth.autoParser.DAOSimple.ParserObject;
 import ru.program_code.sareth.Sloth.autoParser.DAOSimple.ParsersGet;
 import ru.program_code.sareth.Sloth.autoParser.DAOSimple.SearchQueryesObject;
-import ru.program_code.sareth.Sloth.autoParser.DAOSimple.SiteQueryPosition;
+import ru.program_code.sareth.Sloth.autoParser.DAOSimple.SiteQueryPositionObject;
 
 public class SendStringURLHandler {
 	//
@@ -18,10 +20,10 @@ public class SendStringURLHandler {
 	 * &ses=SEARCHSYSTEM&cnt=COUNTRY&lang=LANG&rep=REP&reg=REGION
 	 */
 	//
-	public static List<SiteQueryPosition> buildURLLists(
+	public static List<SiteQueryPositionObject> buildURLLists(
 			LinkedList<SearchQueryesObject> sitequeryes) throws SQLException {
 		
-		LinkedList<SiteQueryPosition> result = new LinkedList<SiteQueryPosition>();
+		LinkedList<SiteQueryPositionObject> result = new LinkedList<SiteQueryPositionObject>();
 		
 		LinkedList<SearchQueryesObject> queryes = sitequeryes;// это LinkedList<SearchQueryesObject>
 		LinkedList<ParserObject> parsers = (LinkedList<ParserObject>) ParsersGet
@@ -35,10 +37,10 @@ public class SendStringURLHandler {
 				int response = SendMessage.Send(request);
 				if (response==-1)
 					{
-					result.add(new SiteQueryPosition(searchQueryesObject.getSiteID(), searchQueryesObject.getURL(),
+					result.add(new SiteQueryPositionObject(searchQueryesObject.getSiteID(), searchQueryesObject.getURL(),
 							searchQueryesObject.getQueryId(), searchQueryesObject.getText(), searchQueryesObject.getSearchSystemId(),
 							searchQueryesObject.getSearchSystemName(), searchQueryesObject.getRegionId(), searchQueryesObject.getLangId(), 
-							response, request));
+							response, request, LocalDateTime.now()));
 					index = ((index+1)<(parsers.size())) ? index+1 : 0 ;
 				}
 				else
@@ -50,10 +52,10 @@ public class SendStringURLHandler {
 						response = SendMessage.Send(request);
 					}while(response==-1);
 					
-					result.add(new SiteQueryPosition(searchQueryesObject.getSiteID(), searchQueryesObject.getURL(),
+					result.add(new SiteQueryPositionObject(searchQueryesObject.getSiteID(), searchQueryesObject.getURL(),
 							searchQueryesObject.getQueryId(), searchQueryesObject.getText(), searchQueryesObject.getSearchSystemId(),
 							searchQueryesObject.getSearchSystemName(), searchQueryesObject.getRegionId(), searchQueryesObject.getLangId(), 
-							response, request));
+							response, request, LocalDateTime.now()));
 				}
 				//System.out.println(request + " " + response);
 			}
@@ -70,7 +72,12 @@ public class SendStringURLHandler {
 		sb.append(parserURL);
 		sb.append("?");
 		sb.append("query=");
-		sb.append(sq.getText());
+		String query = sq.getText();
+		try {
+			sb.append(URLEncoder.encode(query, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		sb.append("&url=");
 		sb.append(sq.getURL());
 		sb.append("&ses=");

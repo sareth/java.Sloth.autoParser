@@ -1,6 +1,8 @@
 package ru.program_code.sareth.Sloth.autoParser.DAOSimple;
 
-public class SiteQueryPosition {
+import java.time.LocalDateTime;
+
+public class SiteQueryPositionObject {
 	private int siteId;
 	private String siteName;
 	private int queryId;
@@ -11,10 +13,11 @@ public class SiteQueryPosition {
 	private int langId;
 	private int position;
 	private String URLParseString;
+	private LocalDateTime datetime;
 	
-	public SiteQueryPosition(int siteId, String siteName, int queryId,
+	public SiteQueryPositionObject(int siteId, String siteName, int queryId,
 			String queryString, int searchSystemId, String searchSystemName,
-			int regionId, int langId, int position, String uRLParseString) {
+			int regionId, int langId, int position, String uRLParseString, LocalDateTime datetime) {
 		super();
 		this.siteId = siteId;
 		this.siteName = siteName;
@@ -26,6 +29,8 @@ public class SiteQueryPosition {
 		this.langId = langId;
 		this.position = position;
 		URLParseString = uRLParseString;
+		this.datetime = datetime;
+		
 	}
 	public int getSiteId() {
 		return siteId;
@@ -87,6 +92,11 @@ public class SiteQueryPosition {
 	public void setURLParseString(String uRLParseString) {
 		URLParseString = uRLParseString;
 	}
-	
+	public LocalDateTime getDatetime() {
+		return datetime;
+	}
+	public void setDatetime(LocalDateTime datetime) {
+		this.datetime = datetime;
+	}
 	
 }
