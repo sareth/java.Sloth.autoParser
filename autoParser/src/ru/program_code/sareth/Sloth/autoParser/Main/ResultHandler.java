@@ -1,11 +1,11 @@
 package ru.program_code.sareth.Sloth.autoParser.Main;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import ru.program_code.sareth.Sloth.autoParser.DAOSimple.SearchQueryesGettingResultsImpl;
 import ru.program_code.sareth.Sloth.autoParser.DAOSimple.SearchQueryesObject;
 import ru.program_code.sareth.Sloth.autoParser.DAOSimple.SiteQueryPositionObject;
+import ru.program_code.sareth.Sloth.autoParser.DAOSimple.SiteQueryPositionsImpl;
 import ru.program_code.sareth.Sloth.autoParser.Parser.SendStringURLHandler;
 
 public class ResultHandler {
@@ -19,10 +19,8 @@ public class ResultHandler {
 							.getAll();
 					if (b.isEmpty() == false) {
 						LinkedList<SiteQueryPositionObject> ss = (LinkedList<SiteQueryPositionObject>) SendStringURLHandler.buildURLLists(b);
-						for (SiteQueryPositionObject siteQueryPositionObject : ss) {
-							System.out.println(siteQueryPositionObject.getDatetime() + " " + siteQueryPositionObject.getPosition());
-							
-						}
+						new SiteQueryPositionsImpl();
+						SiteQueryPositionsImpl.insertList(ss);
 					} else {
 						System.out.print("No records found");
 					}
@@ -33,13 +31,9 @@ public class ResultHandler {
 					LinkedList<SearchQueryesObject> b = (LinkedList<SearchQueryesObject>) a
 							.getElementsWhereEveryDay();
 					if (b.isEmpty() == false) {
-						for (Iterator<SearchQueryesObject> iterator = b.iterator(); iterator
-								.hasNext();) {
-							SearchQueryesObject searchQuery = (SearchQueryesObject) iterator
-									.next();
-							System.out.println(searchQuery.getURL());
-						}
-
+						LinkedList<SiteQueryPositionObject> ss = (LinkedList<SiteQueryPositionObject>) SendStringURLHandler.buildURLLists(b);
+						new SiteQueryPositionsImpl();
+						SiteQueryPositionsImpl.insertList(ss);
 					} else {
 						System.out.print("No records found");
 					}
@@ -50,12 +44,9 @@ public class ResultHandler {
 					LinkedList<SearchQueryesObject> b = (LinkedList<SearchQueryesObject>) a
 							.getElementsWhereEveryWeek();
 					if (b.isEmpty() == false) {
-						for (Iterator<SearchQueryesObject> iterator = b.iterator(); iterator
-								.hasNext();) {
-							SearchQueryesObject searchQuery = (SearchQueryesObject) iterator
-									.next();
-							System.out.println(searchQuery.getURL());
-						}
+						LinkedList<SiteQueryPositionObject> ss = (LinkedList<SiteQueryPositionObject>) SendStringURLHandler.buildURLLists(b);
+						new SiteQueryPositionsImpl();
+						SiteQueryPositionsImpl.insertList(ss);
 
 					} else {
 						System.out.print("No records found");
@@ -67,12 +58,9 @@ public class ResultHandler {
 					LinkedList<SearchQueryesObject> b = (LinkedList<SearchQueryesObject>) a
 							.getElementsWhereEveryMonth();
 					if (b.isEmpty() == false) {
-						for (Iterator<SearchQueryesObject> iterator = b.iterator(); iterator
-								.hasNext();) {
-							SearchQueryesObject searchQuery = (SearchQueryesObject) iterator
-									.next();
-							System.out.println(searchQuery.getURL());
-						}
+						LinkedList<SiteQueryPositionObject> ss = (LinkedList<SiteQueryPositionObject>) SendStringURLHandler.buildURLLists(b);
+						new SiteQueryPositionsImpl();
+						SiteQueryPositionsImpl.insertList(ss);
 
 					} else {
 						System.out.print("No records found");
@@ -87,8 +75,12 @@ public class ResultHandler {
 
 					SearchQueryesObject b = a.getElementById(id);
 					if (b !=null) {
-						String url = SendStringURLHandler.buildURLString(b, "http://www.program-code.ru/parse/position_parser.php");
-						System.out.print(url);
+						LinkedList<SearchQueryesObject> objQuery = new LinkedList<SearchQueryesObject>();
+						objQuery.add(b);
+						LinkedList<SiteQueryPositionObject> ss = (LinkedList<SiteQueryPositionObject>) SendStringURLHandler.buildURLLists(objQuery);
+						new SiteQueryPositionsImpl();
+						SiteQueryPositionsImpl.insertList(ss);
+						
 					} else {
 						System.out.print("Not find");
 					}

@@ -14,11 +14,13 @@ public class SiteQueryPositionObject {
 	private int position;
 	private String URLParseString;
 	private LocalDateTime datetime;
+	private int id;
 	
 	public SiteQueryPositionObject(int siteId, String siteName, int queryId,
 			String queryString, int searchSystemId, String searchSystemName,
-			int regionId, int langId, int position, String uRLParseString, LocalDateTime datetime) {
+			int regionId, int langId, int position, String uRLParseString, LocalDateTime datetime,int id) {
 		super();
+		this.id = id;
 		this.siteId = siteId;
 		this.siteName = siteName;
 		this.queryId = queryId;
@@ -31,6 +33,12 @@ public class SiteQueryPositionObject {
 		URLParseString = uRLParseString;
 		this.datetime = datetime;
 		
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public int getSiteId() {
 		return siteId;

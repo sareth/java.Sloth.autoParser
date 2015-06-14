@@ -3,7 +3,10 @@ package ru.program_code.sareth.Sloth.autoParser.Parser;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,6 +34,10 @@ public class SendStringURLHandler {
 		int index = 0;
 		
 		if (parsers.isEmpty()==false){
+			printMessageStartParsing();
+			
+			int count = 0;
+			int all = queryes.size();
 			
 			for (SearchQueryesObject searchQueryesObject : queryes) {
 				String request = buildURLString(searchQueryesObject,parsers.get(index).getURL());
@@ -40,7 +47,7 @@ public class SendStringURLHandler {
 					result.add(new SiteQueryPositionObject(searchQueryesObject.getSiteID(), searchQueryesObject.getURL(),
 							searchQueryesObject.getQueryId(), searchQueryesObject.getText(), searchQueryesObject.getSearchSystemId(),
 							searchQueryesObject.getSearchSystemName(), searchQueryesObject.getRegionId(), searchQueryesObject.getLangId(), 
-							response, request, LocalDateTime.now()));
+							response, request, LocalDateTime.now(),searchQueryesObject.getId()));
 					index = ((index+1)<(parsers.size())) ? index+1 : 0 ;
 				}
 				else
@@ -55,10 +62,13 @@ public class SendStringURLHandler {
 					result.add(new SiteQueryPositionObject(searchQueryesObject.getSiteID(), searchQueryesObject.getURL(),
 							searchQueryesObject.getQueryId(), searchQueryesObject.getText(), searchQueryesObject.getSearchSystemId(),
 							searchQueryesObject.getSearchSystemName(), searchQueryesObject.getRegionId(), searchQueryesObject.getLangId(), 
-							response, request, LocalDateTime.now()));
+							response, request, LocalDateTime.now(),searchQueryesObject.getId()));
 				}
-				//System.out.println(request + " " + response);
+				count++;
+				System.out.println("Processed " + count + " of " + all);
 			}
+			printMessageEndParsing();
+			
 			return result;
 		}
 		
@@ -94,6 +104,22 @@ public class SendStringURLHandler {
 		
 		return (getURLstring);
 	}
+	
+	
+	private static void printMessageStartParsing() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		System.out.println(); 
+		System.out.println("Parsing was started at " + dateFormat.format(date));
+	}
+	
+	private static void printMessageEndParsing() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		System.out.println(); 
+		System.out.println("Parsing was ended at " + dateFormat.format(date));
+	}
+
 	/*
 	 * LinkedList<ParserObject> parsersList = (LinkedList<ParserObject>)
 	 * ParsersGet.getParsers(); int searchSystemId = sq.getSearchSystemId();
