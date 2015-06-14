@@ -20,7 +20,7 @@ public class ResultHandler {
 					if (b.isEmpty() == false) {
 						LinkedList<SiteQueryPositionObject> ss = (LinkedList<SiteQueryPositionObject>) SendStringURLHandler.buildURLLists(b);
 						for (SiteQueryPositionObject siteQueryPositionObject : ss) {
-							System.out.print(siteQueryPositionObject.getDatetime() + " " + siteQueryPositionObject.getPosition());
+							System.out.println(siteQueryPositionObject.getDatetime() + " " + siteQueryPositionObject.getPosition());
 							
 						}
 					} else {

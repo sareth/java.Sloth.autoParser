@@ -28,10 +28,11 @@ public class SendMessage {
 	private static int doGetRequest(String urlString) throws IOException,
 			JSONException {
 		urlString = urlString.replaceAll(" ", "%20");
-		System.out.println(urlString);
+		
 		JSONObject json = readJsonFromUrl(urlString);
-		System.out.print(json.get("position").toString());
-		if (json.get("error").equals("Capcha")) {
+		//System.out.print(json.get("position").toString());
+		//System.out.println(urlString);
+		if (json.get("error").equals("Capcha")||(json==null)) {
 			return -1;
 		} else if (json.get("position").toString().equals("null")) {
 			return 0;
@@ -56,10 +57,16 @@ public class SendMessage {
 					Charset.forName("UTF-8")));
 			
 			String jsonText = readAll(rd);
-			System.out.println(jsonText);
+			//System.out.println(jsonText);
 			JSONObject json = new JSONObject(jsonText);
 			return json;
-		} finally {
+		}catch(IOException ex){
+			return null;
+		}
+		catch(JSONException ex){
+			return null;
+		}
+		finally {
 			is.close();
 		}
 	}
